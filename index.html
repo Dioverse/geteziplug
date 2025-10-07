@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Eziplug - Discover a world of convenience and ease </title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+    .team-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: #0f0606;
+      min-height: 600px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      transform: scale(1.05); /* optional, gives a soft zoom effect */
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2; /* text above the blurred image */
+    }
+
+    .why-box, .icon-box {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .why-box:hover, .icon-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(3, 0, 0, 0.15);
+    }
+
+</style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top">
+
+    <div class="topbar d-flex align-items-center">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@Eziplug.com">contact@Eziplug.com</a></i>
+          <i class="bi bi-phone d-flex align-items-center ms-4"><a href="tel:+2348067915587">+234 806 791 5587</a></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+          <a href="https://x.com/eziplug?t=1JsaO2GG6GoCjdEWpIVbfA&s=09" class="twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.facebook.com/share/1PY3gpP2TD/?mibextid=wwXIfr" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/official_eziiplug1?igsh=MTZzcGZlNDVvZHBoeQ%3D%3D&utm_source=qr" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div><!-- End Top Bar -->
+
+    <div class="branding d-flex align-items-center">
+
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center me-auto">
+          <img src="assets/img/eziplug.png" class="img" alt="Eziplug">
+          <!-- <h1 class="sitename">Eziplug</h1> -->
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html" class="active">Home<br></a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#our_teams">Teams</a></li>
+            <li class="dropdown"><a href="#"><span>Other</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#faq">FAQs</a></li>
+                </li>
+                <li><a href="#Testimonials">Testimonials</a></li>
+                <li><a href="#Gallery">Gallery</li>
+                <!-- <li><a href="#">Dropdown 4</a></li> -->
+              </ul>
+            </li>
+            <li><a href="#contact">Contact us</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <a class="cta-btn d-none d-sm-block" href="#download now"><i class="fas fa-mobile-screen-button"></i> DOWNLOAD NOW</a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background position-relative">
+
+      <div class="hero-bg">
+        <img src="assets/img/eziplug_banner.png" alt="Eziplug Banner" class="img-fluid">
+      </div>
+
+      <div class="container position-relative text-center text-white" style="z-index: 2;">
+
+        <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+          <h2 class="text-white">One app. Every transaction. Zero stress</h2>
+          <p class="text-white">Buy/sell USDT & gift cards, pay bills, airtime/data, and move money fast, secure, and simple </p>
+        </div><!-- End Welcome -->
+
+        <div class="content row gy-4">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="why-box" data-aos="zoom-out" data-aos-delay="200">
+              <h3>Why Eziplug?</h3>
+              <p>
+                Because life doesn’t wait and neither should your money.
+                At Eziplug, we’re more than just a financial service we’re 
+                your reliable partner in every moment that matters. 
+                Whether you're facing an unexpected expense, 
+                need instant access to your funds, or simply want a faster, 
+                easier way to manage your money, we’re here for you.
+              </p>
+              <div class="text-center">
+                <a href="#" class="more-btn"><span></span> <i class="fas fa-mobile-screen-button"></i> Android</a>
+                <a href="#" class="more-btn"><span></span> <i class="fas fa-apple-whole"></i> IOS</a>
+              </div>
+            </div>
+          </div><!-- End Why Box -->
+
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="d-flex flex-column justify-content-center">
+              <div class="row gy-4">
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
+                    <i class="bi bi-speedometer"></i>
+                    <h4>Speed & Simplicity</h4>
+                    <p>
+                      Get access to your cash in minutes not hours or days. 
+                      Our streamlined process puts your time first
+                    </p>
+                  </div>
+                </div><!-- End Icon Box -->
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
+                    <i class="bi bi-gem"></i>
+                    <h4>Anywhere, Anytime Access</h4>
+                    <p>
+                      With 24/7 service and a growing network, Eziplug is always just 
+                      a click or a step away.
+                    </p>
+                  </div>
+                </div><!-- End Icon Box -->
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="500">
+                    <i class="bi bi-shield"></i>
+                    <h4>Secure & Transparent</h4>
+                    <p>
+                      No hidden fees. No confusing terms. 
+                      Just honest service backed by cutting-edge security.
+                    </p>
+                  </div>
+                </div><!-- End Icon Box -->
+
+              </div>
+            </div>
+          </div>
+        </div><!-- End  Content-->
+
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4 gx-5">
+
+          <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="200">
+            <img src="assets/img/cashpoint img 1.png" class="img-fluid" alt="">
+            <a href="assets/video/intro.mp4" class="glightbox pulsating-play-btn"></a>
+          </div>
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <h3>About Us</h3>
+            <p>
+              Eziplug is your all-in-one solution for seamless airtime top-ups, 
+              data purchases, bill payments, and secure cryptocurrency transactions and Giftcards. 
+              Built for ease, speed, and security, Eziplug empowers users to manage digital 
+              finances and utilities from one intuitive platform. 
+              Whether you're buying crypto or recharging your phone, we make it fast, 
+              safe, and stress-free
+            </p>
+            <ul>
+              <li>
+                <div>
+                  <h2>Why Eziplug</h2>
+                  <p>Speed that respects your time: Get value in minutes, not hours.</p>
+                  <p>Secure & transparent: Bank-level encryption. No hidden fees.</p>
+                  <p>Always within reach: 24/7 access. Mobile-first experience.</p>
+                  <p>Great rates, fair rewards: Competitive buy/sell rates and referral bonuses. Core Features</p>
+                  <p>Crypto & Gift Cards: Sell USDT or gift cards and get instant value.</p>
+                  <p>Wallet & Transfers: Receive in Naira, send to bank in a few taps</p>
+                  <p>Bill Payments: Electricity, cable TV, education, and more—anytime.</p>
+                  <p>Airtime & Data: Recharge all Nigerian networks instantly.</p>
+                  <p>Transaction History: Clean logs with filters for easy tracking.</p>
+                  <p>Rewards & Referrals: Earn bonuses when you and your friends transact.</p>
+                  <p>Support: 24/7 live chat, email, and phone.</p>
+                  <p class="d-flex gap-2">
+                    <a href="#" class="btn btn-primary text-white d-flex align-items-center">
+                      <i class="fas fa-mobile-screen-button fa-md me-2 text-white"></i>
+                      <span>Download for Android</span>
+                    </a>
+                    <a href="#" class="btn btn-secondary text-white d-flex align-items-center">
+                      <i class="fas fa-apple-whole me-2 fa-md text-white"></i>
+                      <span>Download for iOS</span>
+                    </a>
+                  </p>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section light-background">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+              <p> Crypto rate.</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fa-solid fa-gift"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+              <p> Giftcards rate.</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fas">₦</i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Naira rate</p>
+            </div>
+          <!-- </div>End Stats Item -->
+
+        </div>
+         <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fas fa-award"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Rewards per transaction</p>
+            </div>
+          <!-- </div>End Stats Item -->
+           
+
+
+      </div>
+
+    </section><!-- /Stats Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up" data-aos-delay="100" id="#Services">
+        <h2>Services</h2>
+        <p>Our featured services</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item  position-relative">
+              <div class="icon">
+                <i class="fas fa-dollar-sign"></i>
+                <i class="fas fa-gift"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Crypto/Giftcard Trading</h3>
+              </a>
+              <p>Easily buy, sell, and monitor your crypto/giftcard assets a built in wallet.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-wallet"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Wallet Transfer</h3>
+              </a>
+              <p>Send and receive both naira and crypto securely, with full control over your wallet</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-money-bill"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Cashback / Referral Bonuses</h3>
+              </a>
+              <p>Incentivize engagement by offering: Referral programs, Cashback in crypto for airtime/bill purchase.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Bill Payment</h3>
+              </a>
+              <p>Pay for electricity, cable TV, education, and more, anytime, anywhere.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-wifi"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Airtime and Data</h3>
+              </a>
+              <p>Instantly recharge your airtime and purchase data bundles for all Nigeria networks.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-list"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Transaction History</h3>
+              </a>
+              <p>Clean and detailed logs of Airtime, data, bill payments, Crypto transfers and Giftcards, Include filters for easy tracking.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+    <!-- How it work Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4 gx-5">
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <h3>How It Work</h3>
+            <p>
+              Eziplug is a one-stop platform for all your financial and telecom needs 
+            </p>
+            <ul>
+              <li>
+                <div>
+                  <h2>With our app, you can:</h2>
+                  <p>Create an account: Sign up and verify in minutes.</p>
+                  <p>Fund your account for airtime, data, cable subscription and bill payments, (only fund what the amount you want to use)</p>
+                  <p>⁠Choose what you’re selling (USDT/gift card).</p>
+                  <p>Transact & withdraw: Complete a trade and get your money in your payout account instantly</p>
+                  <p>Save & Earn: Deposit funds securely, lock them for a set period, and earn attractive returns. At the end of the term, your savings plus interest are instantly available in your wallet for withdrawal or reinvestment.</p>
+                  <p class="d-flex gap-2">
+                    <a href="#" class="btn btn-primary text-white d-flex align-items-center">
+                      <i class="fas fa-mobile-screen-button fa-md me-2 text-white"></i>
+                      <span>Download for Android</span>
+                    </a>
+                    <a href="#" class="btn btn-secondary text-white d-flex align-items-center">
+                      <i class="fas fa-apple-whole me-2 fa-md text-white"></i>
+                      <span>Download for iOS</span>
+                    </a>
+                  </p>
+                
+
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="200">
+            <img src="assets/img/cashpoint img 1.png" class="img-fluid" alt="">
+            <a href="assets/video/intro.mp4" class="glightbox pulsating-play-btn"></a>
+          </div>
+
+          
+
+        </div>
+
+      </div>
+
+    </section><!-- /How it work Section -->
+    
+    <!--  our team Section -->
+    <section id="our_teams" class="our team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2> Our Team</h2>
+        <p> Meet our dedicated team of professionals.</p>
+      </div>
+      <!-- End Section Title -->
+
+      <div class="container py-5">
+        <div class="row g-4">
+          <!-- Team Member 1 -->
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="card border-0 shadow-sm text-center team-card">
+              <img src="assets/img/teams/t1.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Jeremiah Mfe Nyior" style="width:120px; height:120px; object-fit:cover;">
+              <div class="card-body">
+                <h5 class="card-title mb-1">Jeremiah Mfe Nyior</h5>
+                <p class="text-muted mb-0"><strong>Strategic Partner</strong></p>
+                <!-- Social Icons (optional) -->
+                <!--
+                <div class="mt-2">
+                  <a href="#" class="text-dark me-2"><i class="bi bi-twitter"></i></a>
+                  <a href="#" class="text-dark me-2"><i class="bi bi-facebook"></i></a>
+                  <a href="#" class="text-dark me-2"><i class="bi bi-instagram"></i></a>
+                  <a href="#" class="text-dark"><i class="bi bi-linkedin"></i></a>
+                </div>
+                -->
+              </div>
+            </div>
+          </div>
+          <!-- Team Member 2 -->
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="card border-0 shadow-sm text-center team-card">
+              <img src="assets/img/teams/t4.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Eyimonye Victor John" style="width:120px; height:120px; object-fit:cover;">
+              <div class="card-body">
+                <h5 class="card-title mb-1">Eyimonye Victor John</h5>
+                <p class="text-muted mb-0"><strong>Founder & CEO</strong></p>
+              </div>
+            </div>
+          </div>
+          <!-- Team Member 3 -->
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="card border-0 shadow-sm text-center team-card">
+              <img src="assets/img/teams/t2.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Michael Valentine John" style="width:120px; height:120px; object-fit:cover;">
+              <div class="card-body">
+                <h5 class="card-title mb-1">Michael Valentine J.</h5>
+                <p class="text-muted mb-0"><strong>Project Manager</strong></p>
+              </div>
+            </div>
+          </div>
+          <!-- Team Member 4 -->
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="card border-0 shadow-sm text-center team-card">
+              <img src="assets/img/teams/t3.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Shedrack Emmanuel Shaibu" style="width:120px; height:120px; object-fit:cover;">
+              <div class="card-body">
+                <h5 class="card-title mb-1">Shedrack Emmanuel</h5>
+                <p class="text-muted mb-0"><strong>Sales Manager</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </section><!-- /Doctors Section -->
+    
+    <!-- Faq Section -->
+    <section id="faq" class="faq section light-background">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up" id="faq">
+        <h2>Frequently Asked Questions</h2>
+      </div><!-- End Section Title -->
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-12" data-aos="fade-up" data-aos-delay="100">
+            <div class="faq-container">
+
+              <div class="faq-item faq-active">
+                <h3>Is the app safe for crypto trading?</h3>
+                <div class="faq-content">
+                  <p>Yes, we use secure APIs and encryption to protect all your transactions.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>What networks are supported for airtime/data?</h3>
+                <div class="faq-content">
+                  <p>MTN, Glo, Airtel, 9mobile all major Nigerian networks are covered.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Can I send money to other users?</h3>
+                <div class="faq-content">
+                  <p>Yes, you can transfer both naira and crypto within the app.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Where can I download the app?</h3>
+                <div class="faq-content">
+                  <p>The app will be available on the Google Play Store and Apple App Store soon.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>How do I create an account?</h3>
+                 <div class="faq-content">
+                  <p>Click on the "Sign Up" button and follow the instructions to verify your email, set up two-factor authentication (2FA), and complete identity verification (KYC) if required.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>What should I do if I forget my password?</h3>
+                <div class="faq-content">
+                  <p>Click “Forgot Password” on the login page and follow the steps to reset your password via your registered email.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
+
+          </div><!-- End Faq Column-->
+
+        </div>
+
+      </div>
+    </section><!-- /Faq Section -->
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-5 info" data-aos="fade-up" data-aos-delay="100" id="Testimonials">
+            <h3>Testimonials</h3>
+            <p>
+              Eziplug Crypto has completely transformed the way I manage and trade 
+              digital assets. The platform is incredibly user-friendly, with fast 
+              transactions and top-notch security features that give me real 
+              peace of mind. Whether I'm buying Bitcoin, exchanging tokens, 
+              or withdrawing funds, everything is smooth and reliable. 
+              I especially appreciate the responsive customer support, they’re quick, 
+              helpful, and always professional. 
+              Highly recommended for anyone serious about crypto! 
+              <strong>CEO, The Vikzy Investor.</strong>
+            </p>
+          </div>
+
+          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
+            <div class="swiper init-swiper">
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  }
+                }
+              </script>
+              <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <div class="d-flex">
+                      <img src="assets/img/testimonials/user.png" class="testimonial-img flex-shrink-0" alt="">
+                      <div>
+                        <h3>Mr Ridwan Adio</h3>
+                        <h4>Ceo &amp; Founder</h4>
+                        <div class="stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span>Leading a buisness means staying ahead and Eziplug crypto gives us that edge. its fast, reliable, and perfectly aligns with our drive for innovation and efficiency. its not just a payment solution and strategic advantage </span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                  </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <div class="d-flex">
+                      <img src="assets/img/testimonials/user.png" class="testimonial-img flex-shrink-0" alt="">
+                      <div>
+                        <h3>Miss Taqiha Ola</h3>
+                        <h4>Designer</h4>
+                        <div class="stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span>I value simplicity and elegance. Eziplug Crypto combines sleek usability with powerful performance, letting me focus on my craft while ensuring smooth, secure transactions with clients worldwide.</span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                  </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <div class="d-flex">
+                      <img src="assets/img/testimonials/user.png" class="testimonial-img flex-shrink-0" alt="">
+                      <div>
+                        <h3>Mr Muhad</h3>
+                        <h4>Frontend</h4>
+                        <div class="stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span>Running a store means handling countless transactions daily. Eziplug Crypto makes it easy, secure, and fast—plus it opens up a whole new customer base using crypto. It's the future of retail.</span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                  </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <div class="d-flex">
+                      <img src="assets/img/testimonials/user.png" class="testimonial-img flex-shrink-0" alt="">
+                      <div>
+                        <h3>Mr Abdullahi Taj</h3>
+                        <h4>Freelancer</h4>
+                        <div class="stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span>Freelancing means flexibility—and with Eziplug, I get paid instantly, no matter where my clients are. It's eliminated payment delays and currency hassles. This is the freedom freelancers deserve.</span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                  </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                  <div class="testimonial-item">
+                    <div class="d-flex">
+                      <img src="assets/img/testimonials/user.png" class="testimonial-img flex-shrink-0" alt="">
+                      <div>
+                        <h3>Mr Abdulrahman</h3>
+                        <h4>Entrepreneur</h4>
+                        <div class="stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      <span>As an entrepreneur juggling multiple projects, I need tools that work as hard as I do. Eziplug Crypto is seamless, secure, and scalable helping me grow without limits. It’s built for visionaries.</span>
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                  </div>
+                </div><!-- End testimonial item -->
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up"data-aos-delay="100" id="Gallery">
+        <h2>Gallery</h2>
+        <p>Explore our collection of images showcasing the Eziplug experience.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-0">
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/11.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/11.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/12.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/12.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/16.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/16.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/15.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/15.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/5.jpeg" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/5.jpeg" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/13.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/13.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/7.jpeg" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/7.jpeg" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+          <div class="col-lg-3 col-md-4">
+            <div class="gallery-item">
+              <a href="assets/img/gallery/14.png" class="glightbox" data-gallery="images-gallery">
+                <img src="assets/img/gallery/14.png" alt="" class="img-fluid">
+              </a>
+            </div>
+          </div><!-- End Gallery Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Gallery Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Get in touch with us for any inquiries or support.</p>
+      </div><!-- End Section Title -->
+
+      
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h3>Location</h3>
+                <p> Opposite Commissioner Quarter Makurdi, Makurdi, AL, NG 970100</p>
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-telephone flex-shrink-0"></i>
+              <div>
+                <h3>Call Us</h3>
+                <p>+234 806 791 5587</p>
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+              <i class="bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h3>Email Us</h3>
+                <p>info@eziplug.app</p>
+              </div>
+            </div><!-- End Info Item -->
+
+          </div>
+
+          <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer light-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="/index" class="logo d-flex align-items-center">
+            <img src="assets/img/eziplug.png" class="img-fluid pe-3" alt="Eziplug">
+            <!-- <span class="sitename">Eziplug</span> -->
+          </a>
+          <div class="footer-contact pt-3">
+            <p>Opposite Commissioner Quarter Makurdi, <br> Makurdi, AL, NG 970100</p>
+            
+            <p class="mt-3"><strong>Phone:</strong> <span>+234 806 791 5587</span></p>
+            <p><strong>Email:</strong> <span>info@eziplug.app</span></p>
+          </div>
+          
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="assets/Eziplug_Terms_Conditions.pdf">Terms of service</a></li>
+            <li><a href="assets/Eziplug_Privacy_Policy.pdf">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Crypto trading</a></li>
+            <li><a href="#">Giftcards</a></li>
+            <li><a href="#">Wallet & transfer</a></li>
+            <li><a href="#">Bills payment</a></li>
+            <li><a href="#">Airttime & Data</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Follow Us</h4>
+          <p>For recent news and updates, follow us on our social media platforms</p>
+          <div class="social-links d-flex mt-4">
+            <a href="https://x.com/eziplug?t=1JsaO2GG6GoCjdEWpIVbfA&s=09"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/share/1PY3gpP2TD/?mibextid=wwXIfr"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/official_eziiplug1?igsh=MTZzcGZlNDVvZHBoeQ%3D%3D&utm_source=qr"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Eziplug</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        Developed by <a href="https://deovaze.com/">Deovaze</a> 
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
