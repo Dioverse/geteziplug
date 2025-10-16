@@ -1,0 +1,9 @@
+git init
+git add .
+git commit -m  ""
+git remote add origin https://github.com/Dioverse/geteziplug.git
+git checkout -b branchname
+git push -u origin branchname
+
+
+git checkout -b branchname
