@@ -3,233 +3,266 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import Topnav from "../../components/Topnav";
 import HistoryLink from "../../components/HistoryLink";
-import { getRequest } from "../../services/apiServices";
+import api from "../../services/api";
 
 export default function CableHistory() {
-  const [datas, setData] = useState([]);          // full data from API
-  const [filtered, setFiltered] = useState([]);   // filtered data for table
+  const [datas, setData] = useState([]);          // data from API
+  const [filteredData, setFilteredData] = useState([]); // filtered data shown in table
   const [loading, setLoading] = useState(true);
+
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 10;
-  const [filter, setFilter] = useState("");
+  const [lastPage, setLastPage] = useState(1);
 
+  const [planFilter, setPlanFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  /* ================= FETCH DATA ================= */
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
-  // re-apply filter whenever filter or datas change
   useEffect(() => {
     applyFilter();
-  }, [filter, datas]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planFilter, statusFilter, datas]);
 
-  const fetchData = async () => {
+  const fetchData = async (pageNum = 1) => {
     setLoading(true);
     try {
-      const res = await getRequest(`/histories/cable`);
-      const items = res.data?.results?.Data?.data || [];
-      setData(items);
+      const token = localStorage.getItem("token");
+      const res = await api.get(`/admin/histories/cable?page=${pageNum}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const apiData = res?.data?.results?.Data;
+
+      setData(apiData?.data || []);
+      setFilteredData(apiData?.data || []);
+      setLastPage(apiData?.last_page || 1);
     } catch (err) {
-      console.error("Failed to fetch plan:", err);
+      console.error("Failed to fetch cable history:", err);
     } finally {
       setLoading(false);
     }
   };
 
+  /* ================= FILTER ================= */
   const applyFilter = () => {
-    let result = datas;
-    if (filter) {
-      result = datas.filter((d) =>
-        d?.cable_plan?.name?.toLowerCase().includes(filter.toLowerCase())
+    let temp = [...datas];
+
+    if (planFilter) {
+      temp = temp.filter(
+        (d) => d.cable?.name.toLowerCase() === planFilter.toLowerCase()
       );
     }
-    setFiltered(result);
 
-    // recalc pages
-    setTotalPages(Math.max(1, Math.ceil(result.length / pageSize)));
-    setPage(1); // reset to page 1 after filter
+    if (statusFilter) {
+      temp = temp.filter(
+        (d) => d.status?.toLowerCase() === statusFilter.toLowerCase()
+      );
+    }
+
+    setFilteredData(temp);
   };
 
-  const paginatedData = filtered.slice(
-    (page - 1) * pageSize,
-    page * pageSize
-  );
+  /* ================= PAGINATION BUTTONS ================= */
+  const renderPageButtons = () => {
+    const maxButtons = 7;
+    let start = Math.max(1, page - Math.floor(maxButtons / 2));
+    let end = Math.min(lastPage, start + maxButtons - 1);
 
+    if (end - start + 1 < maxButtons) {
+      start = Math.max(1, end - maxButtons + 1);
+    }
+
+    const buttons = [];
+
+    if (start > 1) {
+      buttons.push(
+        <li key="first" className="page-item">
+          <button className="page-link" onClick={() => setPage(1)}>
+            1
+          </button>
+        </li>
+      );
+    }
+
+    for (let p = start; p <= end; p++) {
+      buttons.push(
+        <li key={p} className={`page-item ${page === p ? "active" : ""}`}>
+          <button className="page-link" onClick={() => setPage(p)}>
+            {p}
+          </button>
+        </li>
+      );
+    }
+
+    if (end < lastPage) {
+      buttons.push(
+        <li key="last" className="page-item">
+          <button className="page-link" onClick={() => setPage(lastPage)}>
+            {lastPage}
+          </button>
+        </li>
+      );
+    }
+
+    return buttons;
+  };
+
+  /* ================= RENDER ================= */
   return (
-    <>
-      <div className="layout-wrapper layout-content-navbar">
-        <div className="layout-container">
-          <Navbar />
-          <div className="layout-page">
-            <Topnav />
-            <div className="content-wrapper">
-              <div className="container-xxl flex-grow-1 container-p-y">
-                <h4 className="fw-bold py-3 mb-4">
-                  <span className="text-muted fw-light">Home /History</span> /
-                  Cable
-                </h4>
+    <div className="layout-wrapper layout-content-navbar">
+      <div className="layout-container">
+        <Navbar />
+        <div className="layout-page">
+          <Topnav />
+          <div className="content-wrapper">
+            <div className="container-xxl flex-grow-1 container-p-y">
+              <h4 className="fw-bold py-3 mb-4">
+                <span className="text-muted fw-light">Home /History</span> /
+                Cable
+              </h4>
 
-                <div className="row">
-                  <div className="col-lg-12 mb-4 order-0">
-                    <HistoryLink />
-                    <div className="card">
-                      <div className="card-header d-flex justify-content-between">
-                        <h5 className="mb-0">Filter History</h5>
-                        <div className="card-header-actions col-4">
-                          <select
-                            className="form-select"
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                          >
-                            <option value="">All</option>
-                            <option value="GOTV">GOTV</option>
-                            <option value="DSTV">DSTV</option>
-                            <option value="Startimes">Startimes</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="d-flex align-items-end card">
-                        <div className="container">
-                          <div className="table-responsive text-nowrap">
-                            {loading ? (
-                              <div className="text-center p-4">
-                                <div
-                                  className="spinner-border text-primary"
-                                  role="status"
-                                  style={{ width: "3rem", height: "3rem" }}
-                                >
-                                  <span className="visually-hidden">
-                                    Loading...
-                                  </span>
-                                </div>
-                              </div>
-                            ) : (
-                              <table className="table">
-                                <thead>
-                                  <tr>
-                                    <th width="50">#</th>
-                                    <th>Ref</th>
-                                    <th>User</th>
-                                    <th>TV Plan</th>
-                                    <th>IUC No.</th>
-                                    <th>Phone</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                  </tr>
-                                </thead>
-                                <tbody className="table-border-bottom-0">
-                                  {paginatedData.length === 0 ? (
-                                    <tr>
-                                      <td
-                                        colSpan={9}
-                                        className="text-center py-4"
-                                      >
-                                        No records found.
-                                      </td>
-                                    </tr>
-                                  ) : (
-                                    paginatedData.map((data, index) => (
-                                      <tr key={index}>
-                                        <td>
-                                          {(page - 1) * pageSize + index + 1}
-                                        </td>
-                                        <td>{data.reference}</td>
-                                        <td>{data.user.username}</td>
-                                        <td>{data.cable_plan.name}</td>
-                                        <td>{data.iuc_number}</td>
-                                        <td>{data.phone}</td>
-                                        <td>
-                                          {new Intl.NumberFormat("en-NG", {
-                                            style: "currency",
-                                            currency: "NGN",
-                                          }).format(data.amount)}
-                                        </td>
-                                        <td>
-                                          <span
-                                            className={`badge ${
-                                              data.status === "approved"
-                                                ? "bg-label-success"
-                                                : data.status === "pending"
-                                                ? "bg-label-warning"
-                                                : "bg-label-danger"
-                                            }`}
-                                          >
-                                            {data.status === "approved"
-                                              ? "Approved"
-                                              : data.status === "pending"
-                                              ? "Pending"
-                                              : "Rejected"}
-                                          </span>
-                                        </td>
-                                        <td>
-                                          {new Date(
-                                            data.created_at
-                                          ).toLocaleDateString("en-US", {
-                                            year: "numeric",
-                                            month: "long",
-                                            day: "numeric",
-                                          })}
-                                        </td>
-                                      </tr>
-                                    ))
-                                  )}
-                                </tbody>
-                              </table>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+              <HistoryLink />
+
+              <div className="card">
+                {/* FILTERS */}
+                <div className="card-header d-flex gap-2">
+                  <select
+                    className="form-select"
+                    value={planFilter}
+                    onChange={(e) => setPlanFilter(e.target.value)}
+                  >
+                    <option value="">All Plans</option>
+                    <option value="GOTV">GOTV</option>
+                    <option value="DSTV">DSTV</option>
+                    <option value="Startimes">Startimes</option>
+                  </select>
+
+                  <select
+                    className="form-select"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                  >
+                    <option value="">All Status</option>
+                    <option value="success">Successful</option>
+                    <option value="failed">Failed</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                </div>
+
+                {/* TABLE */}
+                <div className="table-responsive">
+                  {loading ? (
+                    <div className="text-center p-4">
+                      <div className="spinner-border text-primary" />
                     </div>
-                  </div>
+                  ) : (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Ref</th>
+                          <th>User</th>
+                          <th>TV Plan</th>
+                          <th>IUC No.</th>
+                          <th>Phone</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredData.length === 0 ? (
+                          <tr>
+                            <td colSpan="9" className="text-center py-4">
+                              No records found
+                            </td>
+                          </tr>
+                        ) : (
+                          filteredData.map((d, idx) => (
+                            <tr key={d.id ?? idx}>
+                              <td>{idx + 1}</td>
+                              <td>{d.reference}</td>
+                              <td>{d.user?.username ?? "—"}</td>
+                              <td>{d.cable_plan?.name ?? "—"}</td>
+                              <td>{d.iuc_number}</td>
+                              <td>{d.phone}</td>
+                              <td>
+                                {new Intl.NumberFormat("en-NG", {
+                                  style: "currency",
+                                  currency: "NGN",
+                                }).format(d.amount)}
+                              </td>
+                              <td>
+                                <span
+                                  className={`badge ${
+                                    d.status === "success"
+                                      ? "bg-label-success"
+                                      : d.status === "pending"
+                                      ? "bg-label-warning"
+                                      : "bg-label-danger"
+                                  }`}
+                                >
+                                  {d.status === "success"
+                                    ? "Successful"
+                                    : d.status === "pending"
+                                    ? "Pending"
+                                    : "Failed"}
+                                </span>
+                              </td>
+                              <td>
+                                {new Date(d.created_at).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
 
-              {/* Pagination */}
+              {/* PAGINATION */}
               <nav className="mt-3">
                 <ul className="pagination justify-content-center">
                   <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
                     <button
                       className="page-link"
-                      onClick={() => setPage(page - 1)}
+                      onClick={() => setPage(Math.max(1, page - 1))}
                     >
                       Previous
                     </button>
                   </li>
-                  {Array.from({ length: totalPages }, (_, i) => (
-                    <li
-                      key={i}
-                      className={`page-item ${page === i + 1 ? "active" : ""}`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => setPage(i + 1)}
-                      >
-                        {i + 1}
-                      </button>
-                    </li>
-                  ))}
+
+                  {renderPageButtons()}
+
                   <li
-                    className={`page-item ${
-                      page === totalPages ? "disabled" : ""
-                    }`}
+                    className={`page-item ${page === lastPage ? "disabled" : ""}`}
                   >
                     <button
                       className="page-link"
-                      onClick={() => setPage(page + 1)}
+                      onClick={() => setPage(Math.min(lastPage, page + 1))}
                     >
                       Next
                     </button>
                   </li>
                 </ul>
               </nav>
-              {/* Footer */}
+
               <Footer />
-              <div className="content-backdrop fade"></div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
