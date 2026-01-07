@@ -25,6 +25,9 @@ import DataPlan from "../pages/pricing/DataPlan";
 import GiftUserHistory from "../pages/history/GiftUserHistory";
 import FundHistory from "../pages/history/FundHistory";
 import AirtimeSwapHistory from "../pages/history/AirtimeSwapHistory"; 
+import BonusManagement from "../pages/management/BonusManagement";
+import PayoutManagement from "../pages/management/PayoutManagement.jsx";
+import VirtualAccountManagement from "../pages/management/VirtualAccountManagement";
 
 export default function AppRoutes() {
   return (
@@ -53,6 +56,10 @@ export default function AppRoutes() {
           <Route path="/admin/history/fund" element={<RequireAuth adminonly={true}><FundHistory /></RequireAuth>} />
           <Route path="/admin/history/airtimeswap" element={<RequireAuth adminonly={true}><AirtimeSwapHistory /></RequireAuth>} />
 
+
+          <Route path="/admin/management/bonuses" element={<RequireAuth adminonly={true}><BonusManagement /></RequireAuth>} />
+          <Route path="/admin/management/payouts" element={<RequireAuth adminonly={true}><PayoutManagement /></RequireAuth>} />
+          <Route path="/admin/management/virtual-accounts" element={<RequireAuth adminonly={true}><VirtualAccountManagement /></RequireAuth>} />
 
           <Route path="/admin/account" element={<RequireAuth adminonly={true}><Account /></RequireAuth>} />
 
