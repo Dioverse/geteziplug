@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_BACKEND_API_BASE || 'http://localhost:8006';
+const API_BASE = import.meta.env.VITE_BACKEND_API_BASE || 'https://cashpoint.deovaze.com';
 
 
 const apiService = axios.create({

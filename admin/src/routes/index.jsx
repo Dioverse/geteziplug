@@ -22,6 +22,9 @@ import CablePlan from "../pages/pricing/CablePlan";
 import CryptoPlan from "../pages/pricing/CryptoPlan";
 import GiftcardPlan from "../pages/pricing/GiftcardPlan";
 import DataPlan from "../pages/pricing/DataPlan";
+import GiftUserHistory from "../pages/history/GiftUserHistory";
+import FundHistory from "../pages/history/FundHistory";
+import AirtimeSwapHistory from "../pages/history/AirtimeSwapHistory"; 
 
 export default function AppRoutes() {
   return (
@@ -46,6 +49,10 @@ export default function AppRoutes() {
           <Route path="/admin/history/crypto" element={<RequireAuth adminonly={true}><CryptoHistory /></RequireAuth>} />
           <Route path="/admin/history/giftcards" element={<RequireAuth adminonly={true}><GiftcardHistory /></RequireAuth>} />
           <Route path="/admin/history/data" element={<RequireAuth adminonly={true}><DataHistory /></RequireAuth>} />
+          <Route path="/admin/history/giftuser" element={<RequireAuth adminonly={true}><GiftUserHistory /></RequireAuth>} />
+          <Route path="/admin/history/fund" element={<RequireAuth adminonly={true}><FundHistory /></RequireAuth>} />
+          <Route path="/admin/history/airtimeswap" element={<RequireAuth adminonly={true}><AirtimeSwapHistory /></RequireAuth>} />
+
 
           <Route path="/admin/account" element={<RequireAuth adminonly={true}><Account /></RequireAuth>} />
 
