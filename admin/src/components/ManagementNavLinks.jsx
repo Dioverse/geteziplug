@@ -38,6 +38,16 @@ export default class ManagementNavLinks extends Component {
               <i className="bx bx-credit-card me-1"></i> Virtual Accounts
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink
+              to="/admin/management/crypto-actions"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <i className="bx bx-credit-card me-1"></i> Crypto Actions
+            </NavLink>
+          </li>
         </ul>
       </div>
     );

@@ -28,6 +28,9 @@ import AirtimeSwapHistory from "../pages/history/AirtimeSwapHistory";
 import BonusManagement from "../pages/management/BonusManagement";
 import PayoutManagement from "../pages/management/PayoutManagement.jsx";
 import VirtualAccountManagement from "../pages/management/VirtualAccountManagement";
+import CryptoAction from "../pages/management/CryptoAction.jsx";
+import Leaderboards from "../pages/LeaderBoards";
+import PushNotifications from "../pages/PushNotifications";
 
 export default function AppRoutes() {
   return (
@@ -60,7 +63,11 @@ export default function AppRoutes() {
           <Route path="/admin/management/bonuses" element={<RequireAuth adminonly={true}><BonusManagement /></RequireAuth>} />
           <Route path="/admin/management/payouts" element={<RequireAuth adminonly={true}><PayoutManagement /></RequireAuth>} />
           <Route path="/admin/management/virtual-accounts" element={<RequireAuth adminonly={true}><VirtualAccountManagement /></RequireAuth>} />
+          <Route path="/admin/management/crypto-actions" element={<RequireAuth adminonly={true}><CryptoAction /></RequireAuth>} />
 
+
+          <Route path="/admin/leaderboards" element={<RequireAuth adminonly={true}><Leaderboards /></RequireAuth>} />
+          <Route path="/admin/push-notifications" element={<RequireAuth adminonly={true}><PushNotifications /></RequireAuth>} />
           <Route path="/admin/account" element={<RequireAuth adminonly={true}><Account /></RequireAuth>} />
 
           <Route path="/admin/setting" element={<RequireAuth adminonly={true}><Setting /></RequireAuth>} />

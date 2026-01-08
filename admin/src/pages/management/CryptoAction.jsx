@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import Topnav from "../../components/Topnav";
-import ManagementNavLinks from "../../components/ManagementNavLinks";
 import {
   getRequest,
   postRequest,
@@ -10,8 +9,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function PayoutManagement() {
-  const [payouts, setPayouts] = useState([]);
+export default function CryptoAction() {
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -24,18 +23,27 @@ export default function PayoutManagement() {
 
   const [rejectReason, setRejectReason] = useState("");
   const [approveNote, setApproveNote] = useState("");
+  const [approveAmount, setApproveAmount] = useState("");
 
   const [filterStatus, setFilterStatus] = useState("");
+  const [filterType, setFilterType] = useState("");
 
-  // Apply filter
-  const filteredData = payouts.filter((p) =>
-    filterStatus ? p.status === filterStatus : true
-  );
+  // Apply filters
+  const filteredData = transactions.filter((t) => {
+    const statusMatch = filterStatus ? t.status === filterStatus : true;
+    const typeMatch = filterType ? t.transaction_type === filterType : true;
+    return statusMatch && typeMatch;
+  });
 
   const currentPageData = filteredData;
 
-  const handleFilterChange = (e) => {
+  const handleFilterStatusChange = (e) => {
     setFilterStatus(e.target.value);
+    setPage(1);
+  };
+
+  const handleFilterTypeChange = (e) => {
+    setFilterType(e.target.value);
     setPage(1);
   };
 
@@ -47,16 +55,16 @@ export default function PayoutManagement() {
     setLoading(true);
     try {
       const res = await getRequest(
-        `/payouts?page=${pageNum}&limit=${pageSize}`
+        `/histories/crypto?page=${pageNum}&limit=${pageSize}`
       );
       const dataArray = res.data?.results?.Data?.data || res.data?.results?.Data || [];
       const lastPage = res.data?.results?.Data?.last_page || res.data?.results?.last_page || 1;
       
-      setPayouts(dataArray);
+      setTransactions(dataArray);
       setTotalPages(lastPage);
     } catch (err) {
-      console.error("Failed to fetch payouts:", err);
-      toast.error("Failed to load payout requests");
+      console.error("Failed to fetch crypto transactions:", err);
+      toast.error("Failed to load crypto transactions");
     } finally {
       setLoading(false);
     }
@@ -64,11 +72,11 @@ export default function PayoutManagement() {
 
   const handleView = async (item) => {
     try {
-      const res = await getRequest(`/payouts/${item.id}`);
+      const res = await getRequest(`/histories/crypto/${item.id}`);
       setSelectedItem(res.data?.results?.Data || item);
       setShowViewModal(true);
     } catch (err) {
-      console.error("Failed to fetch payout details:", err);
+      console.error("Failed to fetch transaction details:", err);
       setSelectedItem(item);
       setShowViewModal(true);
     }
@@ -77,6 +85,7 @@ export default function PayoutManagement() {
   const handleApprove = (item) => {
     setSelectedItem(item);
     setApproveNote("");
+    setApproveAmount(item.amount_usd || item.amount);
     setShowApproveModal(true);
   };
 
@@ -89,16 +98,22 @@ export default function PayoutManagement() {
   const handleSubmitApprove = async (e) => {
     e.preventDefault();
 
+    if (!approveAmount) {
+      toast.error("Please enter the approved amount");
+      return;
+    }
+
     try {
-      await postRequest(`/payouts/${selectedItem.id}/approve`, {
+      await postRequest(`/histories/crypto/${selectedItem.id}/approve`, {
+        approved_amount: approveAmount,
         admin_note: approveNote
       });
-      toast.success("Payout approved successfully");
+      toast.success("Transaction approved successfully");
       setShowApproveModal(false);
       fetchData(page);
     } catch (err) {
-      console.error("Failed to approve payout:", err);
-      toast.error(err.response?.data?.message || "Failed to approve payout");
+      console.error("Failed to approve transaction:", err);
+      toast.error(err.response?.data?.message || "Failed to approve transaction");
     }
   };
 
@@ -111,16 +126,36 @@ export default function PayoutManagement() {
     }
 
     try {
-      await postRequest(`/payouts/${selectedItem.id}/reject`, {
+      await postRequest(`/histories/crypto/${selectedItem.id}/reject`, {
         rejection_reason: rejectReason
       });
-      toast.success("Payout rejected");
+      toast.success("Transaction rejected");
       setShowRejectModal(false);
       fetchData(page);
     } catch (err) {
-      console.error("Failed to reject payout:", err);
-      toast.error(err.response?.data?.message || "Failed to reject payout");
+      console.error("Failed to reject transaction:", err);
+      toast.error(err.response?.data?.message || "Failed to reject transaction");
     }
+  };
+
+  const getCryptoIcon = (crypto) => {
+    const icons = {
+      BTC: "₿",
+      ETH: "Ξ",
+      USDT: "₮",
+      USDC: "$"
+    };
+    return icons[crypto?.toUpperCase()] || "₿";
+  };
+
+  const getCryptoBadgeColor = (crypto) => {
+    const colors = {
+      BTC: "bg-label-warning",
+      ETH: "bg-label-primary",
+      USDT: "bg-label-success",
+      USDC: "bg-label-info"
+    };
+    return colors[crypto?.toUpperCase()] || "bg-label-secondary";
   };
 
   return (
@@ -144,10 +179,8 @@ export default function PayoutManagement() {
               <div className="container-xxl flex-grow-1 container-p-y">
                 <h4 className="fw-bold py-3 mb-4">
                   <span className="text-muted fw-light">Home / Management</span> /
-                  Payout Requests
+                  Crypto Transactions
                 </h4>
-
-                <ManagementNavLinks />
 
                 <div className="row">
                   <div className="col-lg-12 mb-4 order-0">
@@ -155,11 +188,21 @@ export default function PayoutManagement() {
                       <div className="card-header">
                         <h5 className="mb-0">Filter</h5>
 
-                        <div className="card-header-actions">
+                        <div className="card-header-actions d-flex gap-2">
+                          <select
+                            className="form-select"
+                            value={filterType}
+                            onChange={handleFilterTypeChange}
+                            style={{ width: '180px' }}
+                          >
+                            <option value="">All Types</option>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                          </select>
                           <select
                             className="form-select"
                             value={filterStatus}
-                            onChange={handleFilterChange}
+                            onChange={handleFilterStatusChange}
                             style={{ width: '200px' }}
                           >
                             <option value="">All Status</option>
@@ -192,10 +235,13 @@ export default function PayoutManagement() {
                                   <th width="50">#</th>
                                   <th>Ref</th>
                                   <th>User</th>
-                                  <th>Amount</th>
-                                  <th>Bank Details</th>
+                                  <th>Type</th>
+                                  <th>Crypto</th>
+                                  <th>Amount (USD)</th>
+                                  <th>Amount (NGN)</th>
+                                  <th>Rate</th>
                                   <th>Status</th>
-                                  <th>Requested Date</th>
+                                  <th>Date</th>
                                   <th>Actions</th>
                                 </tr>
                               </thead>
@@ -203,9 +249,9 @@ export default function PayoutManagement() {
                                 {currentPageData.length === 0 ? (
                                   <tr>
                                     <td
-                                      colSpan="8"
+                                      colSpan="11"
                                       className="text-center py-4">
-                                      No payout requests found
+                                      No crypto transactions found
                                     </td>
                                   </tr>
                                 ) : (
@@ -220,9 +266,10 @@ export default function PayoutManagement() {
                                           href={`mailto:${
                                             data.user?.email || ""
                                           }`}>
-                                          {data.user?.username ||
-                                            data.user?.firstName ||
-                                            "Unknown User"}
+                                          {data.user?.firstName && data.user?.lastName
+                                            ? `${data.user.firstName} ${data.user.lastName}`
+                                            : data.user?.username ||
+                                              "Unknown User"}
                                         </a>
                                         <br />
                                         <small className="text-muted">
@@ -230,22 +277,36 @@ export default function PayoutManagement() {
                                         </small>
                                       </td>
                                       <td>
+                                        <span
+                                          className={`badge ${
+                                            data.transaction_type === "buy"
+                                              ? "bg-label-success"
+                                              : "bg-label-danger"
+                                          }`}>
+                                          {data.transaction_type === "buy" ? "BUY" : "SELL"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span className={`badge ${getCryptoBadgeColor(data.crypto_type)}`}>
+                                          {getCryptoIcon(data.crypto_type)} {data.crypto_type?.toUpperCase()}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <strong className="text-primary">
+                                          ${parseFloat(data.amount_usd || 0).toFixed(2)}
+                                        </strong>
+                                      </td>
+                                      <td>
                                         <strong>
                                           {new Intl.NumberFormat("en-NG", {
                                             style: "currency",
                                             currency: "NGN",
-                                          }).format(data.amount)}
+                                          }).format(data.amount_ngn || 0)}
                                         </strong>
                                       </td>
                                       <td>
-                                        <strong>{data.bank_name}</strong>
-                                        <br />
                                         <small className="text-muted">
-                                          {data.account_number}
-                                        </small>
-                                        <br />
-                                        <small className="text-muted">
-                                          {data.account_name}
+                                          ₦{parseFloat(data.rate || 0).toFixed(2)}
                                         </small>
                                       </td>
                                       <td>
@@ -269,7 +330,7 @@ export default function PayoutManagement() {
                                           data.created_at
                                         ).toLocaleDateString("en-US", {
                                           year: "numeric",
-                                          month: "long",
+                                          month: "short",
                                           day: "numeric",
                                         })}
                                       </td>
@@ -381,10 +442,10 @@ export default function PayoutManagement() {
           key={selectedItem?.id}
           className={`modal fade ${showViewModal ? "show d-block" : ""}`}
           tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Payout Request Details</h5>
+                <h5 className="modal-title">Crypto Transaction Details</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -393,6 +454,22 @@ export default function PayoutManagement() {
               <div className="modal-body">
                 {selectedItem ? (
                   <>
+                    <div className="mb-3">
+                      <h4>
+                        <span className={`badge ${getCryptoBadgeColor(selectedItem.crypto_type)} me-2`}>
+                          {getCryptoIcon(selectedItem.crypto_type)} {selectedItem.crypto_type?.toUpperCase()}
+                        </span>
+                        <span
+                          className={`badge ${
+                            selectedItem.transaction_type === "buy"
+                              ? "bg-label-success"
+                              : "bg-label-danger"
+                          }`}>
+                          {selectedItem.transaction_type?.toUpperCase()}
+                        </span>
+                      </h4>
+                    </div>
+
                     <ul className="list-group">
                       <li className="list-group-item">
                         <strong>Reference:</strong> {selectedItem.reference}
@@ -406,23 +483,49 @@ export default function PayoutManagement() {
                         <small className="text-muted">{selectedItem.user?.email}</small>
                       </li>
                       <li className="list-group-item">
-                        <strong>Amount:</strong>{" "}
+                        <strong>Amount (USD):</strong>{" "}
+                        <span className="text-primary fw-bold fs-5">
+                          ${parseFloat(selectedItem.amount_usd || 0).toFixed(2)}
+                        </span>
+                      </li>
+                      <li className="list-group-item">
+                        <strong>Amount (NGN):</strong>{" "}
                         <span className="text-success fw-bold fs-5">
                           {new Intl.NumberFormat("en-NG", {
                             style: "currency",
                             currency: "NGN",
-                          }).format(selectedItem.amount)}
+                          }).format(selectedItem.amount_ngn || 0)}
                         </span>
                       </li>
                       <li className="list-group-item">
-                        <strong>Bank Name:</strong> {selectedItem.bank_name}
+                        <strong>Exchange Rate:</strong> ₦{parseFloat(selectedItem.rate || 0).toFixed(2)} per $1
                       </li>
-                      <li className="list-group-item">
-                        <strong>Account Number:</strong> {selectedItem.account_number}
-                      </li>
-                      <li className="list-group-item">
-                        <strong>Account Name:</strong> {selectedItem.account_name}
-                      </li>
+                      {selectedItem.wallet_address && (
+                        <li className="list-group-item">
+                          <strong>Wallet Address:</strong>
+                          <br />
+                          <code className="text-break">{selectedItem.wallet_address}</code>
+                        </li>
+                      )}
+                      {selectedItem.transaction_hash && (
+                        <li className="list-group-item">
+                          <strong>Transaction Hash:</strong>
+                          <br />
+                          <code className="text-break">{selectedItem.transaction_hash}</code>
+                        </li>
+                      )}
+                      {selectedItem.proof_image && (
+                        <li className="list-group-item">
+                          <strong>Proof of Payment:</strong>
+                          <br />
+                          <img
+                            src={selectedItem.proof_image}
+                            alt="Proof"
+                            className="img-fluid mt-2"
+                            style={{ maxHeight: '300px' }}
+                          />
+                        </li>
+                      )}
                       <li className="list-group-item">
                         <strong>Status:</strong>{" "}
                         <span
@@ -441,7 +544,7 @@ export default function PayoutManagement() {
                         </span>
                       </li>
                       <li className="list-group-item">
-                        <strong>Requested Date:</strong>{" "}
+                        <strong>Created:</strong>{" "}
                         {new Date(selectedItem.created_at).toLocaleString("en-US", {
                           year: "numeric",
                           month: "long",
@@ -501,7 +604,7 @@ export default function PayoutManagement() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Approve Payout Request</h5>
+                <h5 className="modal-title">Approve Crypto Transaction</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -513,17 +616,35 @@ export default function PayoutManagement() {
                     <div className="alert alert-info">
                       <strong>User:</strong> {selectedItem.user?.username || selectedItem.user?.firstName}
                       <br />
-                      <strong>Amount:</strong>{" "}
+                      <strong>Type:</strong> {selectedItem.transaction_type?.toUpperCase()}
+                      <br />
+                      <strong>Crypto:</strong> {selectedItem.crypto_type?.toUpperCase()}
+                      <br />
+                      <strong>Amount:</strong> ${parseFloat(selectedItem.amount_usd || 0).toFixed(2)} (
                       {new Intl.NumberFormat("en-NG", {
                         style: "currency",
                         currency: "NGN",
-                      }).format(selectedItem.amount)}
-                      <br />
-                      <strong>Bank:</strong> {selectedItem.bank_name}
-                      <br />
-                      <strong>Account:</strong> {selectedItem.account_number} - {selectedItem.account_name}
+                      }).format(selectedItem.amount_ngn || 0)})
                     </div>
                   )}
+
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Approved Amount (USD) <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={approveAmount}
+                      onChange={(e) => setApproveAmount(e.target.value)}
+                      step="0.01"
+                      placeholder="Enter approved amount in USD"
+                      required
+                    />
+                    <small className="text-muted">
+                      You can adjust the amount if needed
+                    </small>
+                  </div>
 
                   <div className="mb-3">
                     <label className="form-label">Admin Note (Optional)</label>
@@ -538,7 +659,7 @@ export default function PayoutManagement() {
 
                   <div className="alert alert-warning">
                     <i className="bx bx-info-circle me-2"></i>
-                    Are you sure you want to approve this payout request?
+                    Are you sure you want to approve this transaction?
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -549,7 +670,7 @@ export default function PayoutManagement() {
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-success">
-                    <i className="bx bx-check me-1"></i> Approve Payout
+                    <i className="bx bx-check me-1"></i> Approve Transaction
                   </button>
                 </div>
               </form>
@@ -564,7 +685,7 @@ export default function PayoutManagement() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Reject Payout Request</h5>
+                <h5 className="modal-title">Reject Crypto Transaction</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -576,11 +697,7 @@ export default function PayoutManagement() {
                     <div className="alert alert-info">
                       <strong>User:</strong> {selectedItem.user?.username || selectedItem.user?.firstName}
                       <br />
-                      <strong>Amount:</strong>{" "}
-                      {new Intl.NumberFormat("en-NG", {
-                        style: "currency",
-                        currency: "NGN",
-                      }).format(selectedItem.amount)}
+                      <strong>Amount:</strong> ${parseFloat(selectedItem.amount_usd || 0).toFixed(2)}
                     </div>
                   )}
 
@@ -593,14 +710,14 @@ export default function PayoutManagement() {
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       rows="4"
-                      placeholder="Explain why this payout is being rejected..."
+                      placeholder="Explain why this transaction is being rejected..."
                       required
                     />
                   </div>
 
                   <div className="alert alert-danger">
                     <i className="bx bx-error me-2"></i>
-                    This action will reject the payout and notify the user.
+                    This action will reject the transaction and notify the user.
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -611,7 +728,7 @@ export default function PayoutManagement() {
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-danger">
-                    <i className="bx bx-x me-1"></i> Reject Payout
+                    <i className="bx bx-x me-1"></i> Reject Transaction
                   </button>
                 </div>
               </form>

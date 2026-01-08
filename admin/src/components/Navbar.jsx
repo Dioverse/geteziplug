@@ -119,6 +119,12 @@ export default class Navbar extends Component {
                                 <div data-i18n="Payouts">Payout Requests</div>
                             </a>
                         </li>
+                         <li className="menu-item">
+                            <a href="/admin/management/crypto-actions" className="menu-link">
+                                <i className="menu-icon tf-icons bx bx-money"></i>
+                                <div data-i18n="Crypto Actions">Crypto Actions</div>
+                            </a>
+                        </li>
                         <li className="menu-item">
                             <a href="/admin/management/virtual-accounts" className="menu-link">
                                 <i className="menu-icon tf-icons bx bx-credit-card"></i>
@@ -163,6 +169,22 @@ export default class Navbar extends Component {
                             <div data-i18n="Documentation">Settings</div>
                         </a>
                         </li>
+
+                        {/* Leaderboards */}
+<li className="menu-item">
+    <a href="/admin/leaderboards" className="menu-link">
+        <i className="menu-icon tf-icons bx bx-trophy"></i>
+        <div data-i18n="Leaderboards">Leaderboards</div>
+    </a>
+</li>
+
+{/* Push Notifications */}
+<li className="menu-item">
+    <a href="/admin/push-notifications" className="menu-link">
+        <i className="menu-icon tf-icons bx bx-bell"></i>
+        <div data-i18n="Notifications">Push Notifications</div>
+    </a>
+</li>
                     </ul>
                 </aside>
       </>
