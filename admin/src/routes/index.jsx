@@ -22,6 +22,7 @@ import CablePlan from "../pages/pricing/CablePlan";
 import CryptoPlan from "../pages/pricing/CryptoPlan";
 import GiftcardPlan from "../pages/pricing/GiftcardPlan";
 import DataPlan from "../pages/pricing/DataPlan";
+<<<<<<< HEAD
 import GiftUserHistory from "../pages/history/GiftUserHistory";
 import FundHistory from "../pages/history/FundHistory";
 import AirtimeSwapHistory from "../pages/history/AirtimeSwapHistory"; 
@@ -31,6 +32,9 @@ import VirtualAccountManagement from "../pages/management/VirtualAccountManageme
 import CryptoAction from "../pages/management/CryptoAction.jsx";
 import Leaderboards from "../pages/LeaderBoards";
 import PushNotifications from "../pages/PushNotifications";
+=======
+import TermsCondition from "../pages/TermsCondition";
+>>>>>>> 075b04df8e1aa5f3ce4e36edcb45fc3501b8c421
 
 export default function AppRoutes() {
   return (
@@ -73,6 +77,7 @@ export default function AppRoutes() {
           <Route path="/admin/setting" element={<RequireAuth adminonly={true}><Setting /></RequireAuth>} />
           <Route path="/admin/support" element={<RequireAuth adminonly={true}><Support /></RequireAuth>} />
           <Route path="/admin/notifications" element={<RequireAuth adminonly={true}><Notification /></RequireAuth>} />
+          <Route path="/admin/termscondition" element={<RequireAuth adminonly={true}><TermsCondition /></RequireAuth>} />
           <Route path="/admin/profile" element={<RequireAuth adminonly={true}><Profile /></RequireAuth>} />
         </Routes>
       </AuthProvider>
