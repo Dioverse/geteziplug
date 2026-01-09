@@ -13,6 +13,7 @@ export default function CryptoHistory() {
 
   const [filterType, setFilterType] = useState(""); // buy | sell
   const [statusFilter, setStatusFilter] = useState(""); // approved | pending | failed
+  const [searchRef, setSearchRef] = useState(""); // reference ID search
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
@@ -33,13 +34,21 @@ export default function CryptoHistory() {
     }
   };
 
-  /* ================= CLIENT-SIDE FILTER ================= */
+  /* ================= CLIENT-SIDE FILTER + SEARCH ================= */
   const filteredData = allData.filter((d) => {
     const typeMatch = filterType ? d.type === filterType : true;
+
     const statusMatch = statusFilter
       ? d.status?.toLowerCase() === statusFilter
       : true;
-    return typeMatch && statusMatch;
+
+    const searchMatch = searchRef
+      ? d.transaction_hash
+          ?.toLowerCase()
+          .includes(searchRef.toLowerCase())
+      : true;
+
+    return typeMatch && statusMatch && searchMatch;
   });
 
   return (
@@ -51,36 +60,52 @@ export default function CryptoHistory() {
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
               <h4 className="fw-bold py-3 mb-4">
-                <span className="text-muted fw-light">Home /History</span> /
-                Crypto
+                <span className="text-muted fw-light">Home / History</span> / Crypto
               </h4>
 
               <HistoryLink />
 
               <div className="card">
                 {/* FILTERS */}
-                <div className="card-header d-flex gap-2">
-                  <select
-                    className="form-select"
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                  >
-                    <option value="">All Types</option>
-                    <option value="buy">Buy</option>
-                    <option value="sell">Sell</option>
-                  </select>
+                <div className="card-header">
+                  <div className="row g-2 align-items-center">
+                    <div className="col-md-3">
+                      <select
+                        className="form-select"
+                        value={filterType}
+                        onChange={(e) => setFilterType(e.target.value)}
+                      >
+                        <option value="">All Types</option>
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                      </select>
+                    </div>
 
-                  <select
-                    className="form-select"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option value="">All Status</option>
-                    <option value="approved">Approved</option>
-                    <option value="pending">Pending</option>
-                    <option value="failed">Failed</option>
-                  </select>
+                    <div className="col-md-3">
+                      <select
+                        className="form-select"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                      >
+                        <option value="">All Status</option>
+                        <option value="approved">Approved</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                      </select>
+                    </div>
+
+                    <div className="col-md-6">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by Reference ID"
+                        value={searchRef}
+                        onChange={(e) => setSearchRef(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
+
 
                 {/* TABLE */}
                 <div className="table-responsive text-nowrap">
@@ -189,18 +214,25 @@ export default function CryptoHistory() {
                       key={i}
                       className={`page-item ${page === i + 1 ? "active" : ""}`}
                     >
-                      <button className="page-link" onClick={() => setPage(i + 1)}>
+                      <button
+                        className="page-link"
+                        onClick={() => setPage(i + 1)}
+                      >
                         {i + 1}
                       </button>
                     </li>
                   ))}
 
                   <li
-                    className={`page-item ${page === totalPages ? "disabled" : ""}`}
+                    className={`page-item ${
+                      page === totalPages ? "disabled" : ""
+                    }`}
                   >
                     <button
                       className="page-link"
-                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }
                     >
                       Next
                     </button>

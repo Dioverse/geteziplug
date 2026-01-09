@@ -16,6 +16,7 @@ export default function AirtimeHistory() {
 
   const [filter, setFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [searchRef, setSearchRef] = useState("");
 
   const LOGO_CDN = {
     MTN: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/MTN_2022_logo.svg/250px-MTN_2022_logo.svg.png",
@@ -35,7 +36,7 @@ export default function AirtimeHistory() {
   useEffect(() => {
     applyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, statusFilter, datas]);
+  }, [filter, statusFilter, searchRef, datas]);
 
   const fetchData = async (pageNum = 1) => {
     setLoading(true);
@@ -100,22 +101,32 @@ export default function AirtimeHistory() {
   const applyFilter = () => {
     let tempData = [...datas];
 
+    // Network filter
     if (filter) {
       tempData = tempData.filter(
         (d) => normalizeNetworkKey(d.network) === filter
       );
     }
 
+    // Status filter
     if (statusFilter) {
       tempData = tempData.filter(
         (d) => d.status?.toLowerCase() === statusFilter
       );
     }
 
+    // Reference search (client-side)
+    if (searchRef.trim()) {
+      const q = searchRef.toLowerCase();
+      tempData = tempData.filter((d) =>
+        d.reference?.toLowerCase().includes(q)
+      );
+    }
+
     setFilteredData(tempData);
   };
 
-  /* ================= PAGINATION BUTTONS ================= */
+  /* ================= PAGINATION ================= */
   const renderPageButtons = () => {
     const maxButtons = 7;
     let start = Math.max(1, page - Math.floor(maxButtons / 2));
@@ -150,10 +161,7 @@ export default function AirtimeHistory() {
     if (end < totalPages) {
       buttons.push(
         <li key="last" className="page-item">
-          <button
-            className="page-link"
-            onClick={() => setPage(totalPages)}
-          >
+          <button className="page-link" onClick={() => setPage(totalPages)}>
             {totalPages}
           </button>
         </li>
@@ -173,7 +181,7 @@ export default function AirtimeHistory() {
           <div className="content-wrapper">
             <div className="container-xxl container-p-y">
               <h4 className="fw-bold py-3 mb-4">
-                <span className="text-muted fw-light">Home /History</span> /
+                <span className="text-muted fw-light">Home / History</span> /
                 Airtime
               </h4>
 
@@ -181,30 +189,45 @@ export default function AirtimeHistory() {
 
               <div className="card">
                 {/* FILTERS */}
-                <div className="card-header d-flex gap-2">
-                  <select
-                    className="form-select"
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                  >
-                    <option value="">All Networks</option>
-                    <option value="MTN">MTN</option>
-                    <option value="AIRTEL">AIRTEL</option>
-                    <option value="GLO">GLO</option>
-                    <option value="9MOBILE">9MOBILE</option>
-                  </select>
+                <div className="card-header row g-2">
+                  <div className="col-md-4">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search by Reference ID"
+                      value={searchRef}
+                      onChange={(e) => setSearchRef(e.target.value)}
+                    />
+                  </div>
 
-                  <select
-                    className="form-select"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option value="">All Status</option>
-                    <option value="success">Successful</option>
-                    <option value="failed">Failed</option> 
-                    <option value="pending">Pending</option>
-                  </select>
+                  <div className="col-md-4">
+                    <select
+                      className="form-select"
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
+                    >
+                      <option value="">All Networks</option>
+                      <option value="MTN">MTN</option>
+                      <option value="AIRTEL">AIRTEL</option>
+                      <option value="GLO">GLO</option>
+                      <option value="9MOBILE">9MOBILE</option>
+                    </select>
+                  </div>
+
+                  <div className="col-md-4">
+                    <select
+                      className="form-select"
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                      <option value="">All Status</option>
+                      <option value="success">Successful</option>
+                      <option value="failed">Failed</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
                 </div>
+
 
                 {/* TABLE */}
                 <div className="table-responsive">
@@ -272,7 +295,6 @@ export default function AirtimeHistory() {
                                     : "Failed"}
                                 </span>
                               </td>
-
                               <td>{d.created_at?.split("T")[0]}</td>
                             </tr>
                           ))

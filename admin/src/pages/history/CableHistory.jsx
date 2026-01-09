@@ -6,8 +6,9 @@ import HistoryLink from "../../components/HistoryLink";
 import api from "../../services/api";
 
 export default function CableHistory() {
-  const [datas, setData] = useState([]);          // data from API
-  const [filteredData, setFilteredData] = useState([]); // filtered data shown in table
+  /* ================= STATE ================= */
+  const [datas, setDatas] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
@@ -15,17 +16,13 @@ export default function CableHistory() {
 
   const [planFilter, setPlanFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [searchRef, setSearchRef] = useState("");
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
     fetchData(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
-  useEffect(() => {
-    applyFilter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planFilter, statusFilter, datas]);
 
   const fetchData = async (pageNum = 1) => {
     setLoading(true);
@@ -34,9 +31,9 @@ export default function CableHistory() {
       const res = await api.get(`/admin/histories/cable?page=${pageNum}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const apiData = res?.data?.results?.Data;
 
-      setData(apiData?.data || []);
+      const apiData = res?.data?.results?.Data;
+      setDatas(apiData?.data || []);
       setFilteredData(apiData?.data || []);
       setLastPage(apiData?.last_page || 1);
     } catch (err) {
@@ -47,25 +44,39 @@ export default function CableHistory() {
   };
 
   /* ================= FILTER ================= */
+  useEffect(() => {
+    applyFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planFilter, statusFilter, searchRef, datas]);
+
   const applyFilter = () => {
     let temp = [...datas];
 
     if (planFilter) {
       temp = temp.filter(
-        (d) => d.cable?.name.toLowerCase() === planFilter.toLowerCase()
+        (d) =>
+          d.cable_plan?.name?.toLowerCase() ===
+          planFilter.toLowerCase()
       );
     }
 
     if (statusFilter) {
       temp = temp.filter(
-        (d) => d.status?.toLowerCase() === statusFilter.toLowerCase()
+        (d) =>
+          d.status?.toLowerCase() === statusFilter.toLowerCase()
+      );
+    }
+
+    if (searchRef) {
+      temp = temp.filter((d) =>
+        d.reference?.toLowerCase().includes(searchRef.toLowerCase())
       );
     }
 
     setFilteredData(temp);
   };
 
-  /* ================= PAGINATION BUTTONS ================= */
+  /* ================= PAGINATION ================= */
   const renderPageButtons = () => {
     const maxButtons = 7;
     let start = Math.max(1, page - Math.floor(maxButtons / 2));
@@ -100,7 +111,10 @@ export default function CableHistory() {
     if (end < lastPage) {
       buttons.push(
         <li key="last" className="page-item">
-          <button className="page-link" onClick={() => setPage(lastPage)}>
+          <button
+            className="page-link"
+            onClick={() => setPage(lastPage)}
+          >
             {lastPage}
           </button>
         </li>
@@ -120,37 +134,53 @@ export default function CableHistory() {
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
               <h4 className="fw-bold py-3 mb-4">
-                <span className="text-muted fw-light">Home /History</span> /
-                Cable
+                <span className="text-muted fw-light">Home / History</span> / Cable
               </h4>
 
               <HistoryLink />
 
               <div className="card">
                 {/* FILTERS */}
-                <div className="card-header d-flex gap-2">
-                  <select
-                    className="form-select"
-                    value={planFilter}
-                    onChange={(e) => setPlanFilter(e.target.value)}
-                  >
-                    <option value="">All Plans</option>
-                    <option value="GOTV">GOTV</option>
-                    <option value="DSTV">DSTV</option>
-                    <option value="Startimes">Startimes</option>
-                  </select>
+                <div className="card-header">
+                  <div className="row g-2 align-items-center">
+                    <div className="col-md-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by Reference ID"
+                        value={searchRef}
+                        onChange={(e) => setSearchRef(e.target.value)}
+                      />
+                    </div>
 
-                  <select
-                    className="form-select"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option value="">All Status</option>
-                    <option value="success">Successful</option>
-                    <option value="failed">Failed</option>
-                    <option value="pending">Pending</option>
-                  </select>
+                    <div className="col-md-4">
+                      <select
+                        className="form-select"
+                        value={planFilter}
+                        onChange={(e) => setPlanFilter(e.target.value)}
+                      >
+                        <option value="">All Plans</option>
+                        <option value="GOTV">GOTV</option>
+                        <option value="DSTV">DSTV</option>
+                        <option value="Startimes">Startimes</option>
+                      </select>
+                    </div>
+
+                    <div className="col-md-4">
+                      <select
+                        className="form-select"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                      >
+                        <option value="">All Status</option>
+                        <option value="success">Successful</option>
+                        <option value="failed">Failed</option>
+                        <option value="pending">Pending</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+
 
                 {/* TABLE */}
                 <div className="table-responsive">
@@ -237,7 +267,7 @@ export default function CableHistory() {
                   <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
                     <button
                       className="page-link"
-                      onClick={() => setPage(Math.max(1, page - 1))}
+                      onClick={() => setPage(page - 1)}
                     >
                       Previous
                     </button>
@@ -246,11 +276,13 @@ export default function CableHistory() {
                   {renderPageButtons()}
 
                   <li
-                    className={`page-item ${page === lastPage ? "disabled" : ""}`}
+                    className={`page-item ${
+                      page === lastPage ? "disabled" : ""
+                    }`}
                   >
                     <button
                       className="page-link"
-                      onClick={() => setPage(Math.min(lastPage, page + 1))}
+                      onClick={() => setPage(page + 1)}
                     >
                       Next
                     </button>

@@ -15,8 +15,10 @@ export default function BillHistory() {
   const pageSize = 10;
 
   const [filter, setFilter] = useState(""); // biller
-  const [statusFilter, setStatusFilter] = useState(""); // ✅ status
+  const [statusFilter, setStatusFilter] = useState(""); // status
+  const [searchRef, setSearchRef] = useState(""); // ✅ reference search
 
+  /* ================= FETCH DATA ================= */
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,7 +26,7 @@ export default function BillHistory() {
   useEffect(() => {
     applyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, statusFilter, datas]);
+  }, [filter, statusFilter, searchRef, datas]);
 
   useEffect(() => {
     calculatePages();
@@ -49,15 +51,25 @@ export default function BillHistory() {
   const applyFilter = () => {
     let tempData = [...datas];
 
+    // Biller filter
     if (filter) {
       tempData = tempData.filter(
         (d) => String(d.bill?.serviceID) === filter
       );
     }
 
+    // Status filter
     if (statusFilter) {
       tempData = tempData.filter(
         (d) => d.status?.toLowerCase() === statusFilter
+      );
+    }
+
+    // Reference search (client-side)
+    if (searchRef.trim()) {
+      const q = searchRef.toLowerCase();
+      tempData = tempData.filter((d) =>
+        d.reference?.toLowerCase().includes(q)
       );
     }
 
@@ -96,50 +108,92 @@ export default function BillHistory() {
               <div className="row">
                 <div className="col-lg-12 mb-4 order-0">
                   <HistoryLink />
+
                   <div className="card">
                     {/* FILTERS */}
-                    <div className="card-header d-flex justify-content-between align-items-center">
-                      <h5 className="mb-0">Filter History</h5>
-                      <div className="d-flex gap-2 col-6">
-                        <select
-                          className="form-select"
-                          value={filter}
-                          onChange={(e) => setFilter(e.target.value)}
-                        >
-                          <option value="">All Billers</option>
-                          <option value="abuja-electric">AEDC</option>
-                          <option value="enugu-electric">EEDC</option>
-                          <option value="eko-electric">EKEDC</option>
-                          <option value="ibadan-electric">IBEDC</option>
-                          <option value="ikeja-electric">IKEDC</option>
-                          <option value="jos-electric">JEDC</option>
-                          <option value="kano-electric">KEDC</option>
-                          <option value="kaduna-electric">KAEDC</option>
-                          <option value="portharcourt-electric">PHEDC</option>
-                        </select>
+                    <div className="card-header">
+                      <div className="row g-2 align-items-center">
+                        <div className="col-md-4">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by Reference ID"
+                            value={searchRef}
+                            onChange={(e) =>
+                              setSearchRef(e.target.value)
+                            }
+                          />
+                        </div>
 
-                        <select
-                          className="form-select"
-                          value={statusFilter}
-                          onChange={(e) =>
-                            setStatusFilter(e.target.value)
-                          }
-                        >
-                          <option value="">All Status</option>
-                          <option value="success">Successful</option>
-                          <option value="pending">Pending</option>
-                          <option value="failed">Failed</option>
-                        </select>
+                        <div className="col-md-4">
+                          <select
+                            className="form-select"
+                            value={filter}
+                            onChange={(e) =>
+                              setFilter(e.target.value)
+                            }
+                          >
+                            <option value="">All Billers</option>
+                            <option value="abuja-electric">
+                              AEDC
+                            </option>
+                            <option value="enugu-electric">
+                              EEDC
+                            </option>
+                            <option value="eko-electric">
+                              EKEDC
+                            </option>
+                            <option value="ibadan-electric">
+                              IBEDC
+                            </option>
+                            <option value="ikeja-electric">
+                              IKEDC
+                            </option>
+                            <option value="jos-electric">
+                              JEDC
+                            </option>
+                            <option value="kano-electric">
+                              KEDC
+                            </option>
+                            <option value="kaduna-electric">
+                              KAEDC
+                            </option>
+                            <option value="portharcourt-electric">
+                              PHEDC
+                            </option>
+                          </select>
+                        </div>
+
+                        <div className="col-md-4">
+                          <select
+                            className="form-select"
+                            value={statusFilter}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value)
+                            }
+                          >
+                            <option value="">All Status</option>
+                            <option value="success">
+                              Successful
+                            </option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
 
+                    {/* TABLE */}
                     <div className="table-responsive text-nowrap">
                       {loading ? (
                         <div className="text-center p-4">
                           <div
                             className="spinner-border text-primary"
                             role="status"
-                            style={{ width: "3rem", height: "3rem" }}
+                            style={{
+                              width: "3rem",
+                              height: "3rem",
+                            }}
                           >
                             <span className="visually-hidden">
                               Loading...
@@ -187,7 +241,8 @@ export default function BillHistory() {
                                     className={`badge ${
                                       data.status === "success"
                                         ? "bg-label-success"
-                                        : data.status === "pending"
+                                        : data.status ===
+                                          "pending"
                                         ? "bg-label-warning"
                                         : "bg-label-danger"
                                     }`}
@@ -202,11 +257,14 @@ export default function BillHistory() {
                                 <td>
                                   {new Date(
                                     data.created_at
-                                  ).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                  })}
+                                  ).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                    }
+                                  )}
                                 </td>
                               </tr>
                             ))}
@@ -242,21 +300,24 @@ export default function BillHistory() {
                     </button>
                   </li>
 
-                  {Array.from({ length: totalPages }, (_, i) => (
-                    <li
-                      key={i}
-                      className={`page-item ${
-                        page === i + 1 ? "active" : ""
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => setPage(i + 1)}
+                  {Array.from(
+                    { length: totalPages },
+                    (_, i) => (
+                      <li
+                        key={i}
+                        className={`page-item ${
+                          page === i + 1 ? "active" : ""
+                        }`}
                       >
-                        {i + 1}
-                      </button>
-                    </li>
-                  ))}
+                        <button
+                          className="page-link"
+                          onClick={() => setPage(i + 1)}
+                        >
+                          {i + 1}
+                        </button>
+                      </li>
+                    )
+                  )}
 
                   <li
                     className={`page-item ${

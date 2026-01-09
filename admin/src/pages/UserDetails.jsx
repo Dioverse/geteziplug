@@ -62,19 +62,20 @@ export default function UserDetails() {
 
                                         <h5 className="mt-4">KYC Documents</h5>
                                         <div>
-                                            {user.kyc?.tier2 && (
+                                            {/* {user.kyc?.tier2 && ( */}
+                                            {user.idmean && (
                                             <div>
                                                 <p><strong>NIN:</strong></p>
-                                                <img src={user.kyc.idmean} alt="NIN" width="200" />
+                                                <img src={`https://cashpoint.deovaze.com/${user.idmean}`} alt="NIN" width="200" />
                                             </div>
                                             )}
-                                            {user.kyc?.tier3?.prove_of_fund && (
+                                            {user.prove_of_fund && (
                                             <div>
                                                 <p><strong>Proof of Fund:</strong></p>
-                                                <img src={user.kyc.tier3.prove_of_fund} alt="ProofOfFund" width="200" />
+                                                <img src={user.prove_of_fund} alt="ProofOfFund" width="200" />
                                             </div>
                                             )}
-                                            {user.kyc?.tier3?.prove_of_address && (
+                                            {user.prove_of_address && (
                                             <div>
                                                 <p><strong>Proof of Address:</strong></p>
                                                 <img src={`https://cashpoint.deovaze.com/storage/app/public/${user.kyc.tier3.prove_of_address}`} alt="ProofOfAddress" width="200" />
