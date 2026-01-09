@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext"; // make sure AuthContext is set up
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 // import "./LoginPage.css"; // optional CSS import
 
 export default function LoginPage() {
