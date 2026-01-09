@@ -5,7 +5,7 @@ export default class HistoryLink extends Component {
   render() {
     return (
       <>
-        <ul className="nav nav-pills flex-column flex-md-row mb-3">
+        <ul className="nav nav-pills flex-nowrap mb-3">
           <li className="nav-item">
             <NavLink
               to="/admin/history/airtime"
@@ -16,6 +16,18 @@ export default class HistoryLink extends Component {
               <i className="bx bx-link-alt me-1"></i> Airtime History
             </NavLink>
           </li>
+
+               <li className="nav-item">
+            <NavLink
+              to="/admin/history/giftuser"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <i className="bx bx-link-alt me-1"></i> Gift Users
+            </NavLink>
+          </li>
+
           <li className="nav-item">
             <NavLink
               to="/admin/history/bill"
@@ -56,6 +68,7 @@ export default class HistoryLink extends Component {
               <i className="bx bx-link-alt me-1"></i> Data History
             </NavLink>
           </li>
+          
           <li className="nav-item">
             <NavLink
               to="/admin/history/giftcards"
@@ -63,9 +76,32 @@ export default class HistoryLink extends Component {
                 `nav-link ${isActive ? "active" : ""}`
               }
             >
-              <i className="bx bx-link-alt me-1"></i> Giftcards
+              <i className="bx bx-link-alt me-1"></i> Gift cards
             </NavLink>
           </li>
+          
+            <li className="nav-item">
+            <NavLink
+              to="/admin/history/fund"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <i className="bx bx-link-alt me-1"></i> Fund History
+            </NavLink>
+          </li>
+
+           <li className="nav-item">
+            <NavLink
+              to="/admin/history/airtimeswap"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <i className="bx bx-link-alt me-1"></i> Airtime Swap History
+            </NavLink>
+          </li>
+
         </ul>
       </>
     );
