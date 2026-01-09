@@ -7,17 +7,25 @@ import { getRequest } from "../services/apiServices";
 
 export default function UserDetails() {
   const { id } = useParams();
+
   const [user, setUser] = useState(null);
+  const [kyc, setKyc] = useState(null);
+  const [documents, setDocuments] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await getRequest(`/kycs/${id}`);
-        setUser(res.data.result.user);
+        const data = res.data.data;
+
+        setUser(data.user);
+        setKyc(data.kyc);
+        setDocuments(data.documents?.current);
       } catch (err) {
         console.error("Failed to fetch user details:", err);
       }
     };
+
     fetchUser();
   }, [id]);
 
@@ -25,83 +33,105 @@ export default function UserDetails() {
 
   return (
     <>
-            <div className="layout-wrapper layout-content-navbar">
-                <div className="layout-container">
-                    {/* Menu */}
-                    <Navbar />
-                    {/* / Menu */}
+      <div className="layout-wrapper layout-content-navbar">
+        <div className="layout-container">
+          <Navbar />
 
-                    {/* Layout container */}
-                    <div className="layout-page">
-                    {/* Navbar */}
+          <div className="layout-page">
+            <Topnav />
 
-                    <Topnav />
+            <div className="content-wrapper">
+              <div className="container flex-grow-1 container-p-y">
+                <h4 className="fw-bold py-3 mb-4">
+                  <span className="text-muted fw-light">Home /</span> User Details
+                </h4>
 
-                    {/* / Navbar */}
+                <div className="card p-4">
+                  <h4>User Information</h4>
+                  <p>
+                    <strong>Name:</strong> {user.first_name} {user.last_name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {user.email}
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> {user.phone}
+                  </p>
+                  <p>
+                    <strong>Joined:</strong>{" "}
+                    {new Date(user.created_at).toLocaleDateString()}
+                  </p>
 
-                    {/* Content wrapper */}
-                    <div className="content-wrapper">
-                        {/* Content */}
+                  <hr />
 
-                        <div className="container flex-grow-1 container-p-y">
-                            <h4 class="fw-bold py-3 mb-4">
-                                <span class="text-muted fw-light">Home /</span> User Details
-                            </h4>
+                  <h4>KYC Information</h4>
+                  <p>
+                    <strong>Tier:</strong> {kyc?.tier_label}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {kyc?.status_label}
+                  </p>
+                  {kyc?.rejection_reason && (
+                    <p className="text-danger">
+                      <strong>Rejection Reason:</strong>{" "}
+                      {kyc.rejection_reason}
+                    </p>
+                  )}
 
-                            <div className="row">
-                                <div className="col-lg-12 mb-4 order-0">
-                                <div className="card">
-                                    <div className="d-flex align-items-end row">
-                                    <div className="container py-4">
-                                        <h4>User & KYC Details</h4>
-                                        <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
-                                        <p><strong>Email:</strong> {user.email}</p>
-                                        <p><strong>Phone:</strong> {user.phone}</p>
-                                        <p><strong>Address:</strong> {user.address} {user.state} {user.country}</p>
-              
+                  <hr />
 
-                                        <h5 className="mt-4">KYC Documents</h5>
-                                        <div>
-                                            {/* {user.kyc?.tier2 && ( */}
-                                            {user.idmean && (
-                                            <div>
-                                                <p><strong>NIN:</strong></p>
-                                                <img src={`https://cashpoint.deovaze.com/${user.idmean}`} alt="NIN" width="200" />
-                                            </div>
-                                            )}
-                                            {user.prove_of_fund && (
-                                            <div>
-                                                <p><strong>Proof of Fund:</strong></p>
-                                                <img src={user.prove_of_fund} alt="ProofOfFund" width="200" />
-                                            </div>
-                                            )}
-                                            {user.prove_of_address && (
-                                            <div>
-                                                <p><strong>Proof of Address:</strong></p>
-                                                <img src={`https://cashpoint.deovaze.com/storage/app/public/${user.kyc.tier3.prove_of_address}`} alt="ProofOfAddress" width="200" />
-                                            </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                            {/* / Content */}
+                  <h4>KYC Documents</h4>
 
-                        
-                            {/* Footer */}
-                            <Footer />
-                            {/* / Footer */}
-
-                        <div className="content-backdrop fade"></div>
+                  {documents?.idmean && (
+                    <div className="mb-3">
+                      <p>
+                        <strong>ID (NIN):</strong>
+                      </p>
+                      <img
+                        src={documents.idmean}
+                        alt="NIN Document"
+                        width="250"
+                        className="img-thumbnail"
+                      />
                     </div>
-                    {/* Content wrapper */}
+                  )}
+
+                  {documents?.prove_of_address && (
+                    <div className="mb-3">
+                      <p>
+                        <strong>Proof of Address:</strong>
+                      </p>
+                      <img
+                        src={documents.prove_of_address}
+                        alt="Proof of Address"
+                        width="250"
+                        className="img-thumbnail"
+                      />
+                    </div>
+                  )}
+
+                  {documents?.prove_of_fund && (
+                    <div className="mb-3">
+                      <p>
+                        <strong>Proof of Fund:</strong>
+                      </p>
+                      <img
+                        src={documents.prove_of_fund}
+                        alt="Proof of Fund"
+                        width="250"
+                        className="img-thumbnail"
+                      />
+                    </div>
+                  )}
                 </div>
-                {/* / Layout page */}
+              </div>
+
+              <Footer />
+              <div className="content-backdrop fade"></div>
             </div>
+          </div>
         </div>
+      </div>
     </>
   );
 }
