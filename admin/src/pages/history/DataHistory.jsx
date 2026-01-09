@@ -16,9 +16,11 @@ export default function DataHistory() {
 
   const LOGO_CDN = {
     MTN: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/MTN_2022_logo.svg/250px-MTN_2022_logo.svg.png",
-    AIRTEL: "https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/airtel-logo-red-text-horizontal.jpg",
+    AIRTEL:
+      "https://s3-ap-southeast-1.amazonaws.com/bsy/iportal/images/airtel-logo-red-text-horizontal.jpg",
     GLO: "https://upload.wikimedia.org/wikipedia/commons/8/86/Glo_button.png",
-    "9MOBILE": "https://9mobile.com.ng/_next/static/media/logos.1d851e63.png",
+    "9MOBILE":
+      "https://9mobile.com.ng/_next/static/media/logos.1d851e63.png",
   };
 
   useEffect(() => {
@@ -540,10 +542,107 @@ export default function DataHistory() {
                     )}
                   </div>
                 </div>
+
+                {/* TABLE */}
+                <div className="table-responsive text-nowrap">
+                  {loading ? (
+                    <div className="text-center p-4">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                        style={{ width: "3rem", height: "3rem" }}
+                      >
+                        <span className="visually-hidden">
+                          Loading...
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Ref</th>
+                          <th>User</th>
+                          <th>Network</th>
+                          <th>Data</th>
+                          <th>Phone</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                          <th>Date</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {paginatedData.length ? (
+                          paginatedData.map((data, index) => {
+                            const networkName = getNetworkName(
+                              data.network
+                            );
+                            const logoUrl = getNetworkLogo(
+                              data.network
+                            );
+
+                            return (
+                              <tr key={index}>
+                                <td>{startIndex + index + 1}</td>
+                                <td>{data.reference}</td>
+                                <td>{data.user?.username}</td>
+                                <td>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 8,
+                                    }}
+                                  >
+                                    {logoUrl && (
+                                      <img
+                                        src={logoUrl}
+                                        alt={networkName}
+                                        style={{ height: 24 }}
+                                      />
+                                    )}
+                                    <span>{networkName}</span>
+                                  </div>
+                                </td>
+                                <td>{data.data_plan?.name}</td>
+                                <td>{data.phone}</td>
+                                <td>₦{data.price}</td>
+                                <td>
+                                  <span
+                                    className={`badge ${
+                                      data.status === "approved"
+                                        ? "bg-label-success"
+                                        : data.status === "pending"
+                                        ? "bg-label-warning"
+                                        : "bg-label-danger"
+                                    }`}
+                                  >
+                                    {data.status}
+                                  </span>
+                                </td>
+                                <td>
+                                  {data.created_at.slice(0, 10)}
+                                </td>
+                                <td>—</td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan="10" className="text-center">
+                              No records found
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
               </div>
 
               <Footer />
-              <div className="content-backdrop fade"></div>
             </div>
           </div>
         </div>
