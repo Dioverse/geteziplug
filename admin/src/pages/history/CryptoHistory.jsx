@@ -4,15 +4,22 @@ import Navbar from "../../components/Navbar";
 import Topnav from "../../components/Topnav";
 import HistoryLink from "../../components/HistoryLink";
 import { getRequest } from "../../services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+
 
 export default function CryptoHistory() {
   const [allData, setAllData] = useState([]); // data from API (current page)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectId, setRejectId] = useState(null);
+  const [rejectReason, setRejectReason] = useState("");
 
   const [filterType, setFilterType] = useState(""); // buy | sell
   const [statusFilter, setStatusFilter] = useState(""); // approved | pending | failed
+    const [loadingApprove, setLoadingApprove] = useState(false);
+  
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
@@ -32,6 +39,67 @@ export default function CryptoHistory() {
       setLoading(false);
     }
   };
+
+  //HANDLE APPROVE AND REJECT ACTION 
+  const handleApprove = (id) => {
+      toast.info(
+        <div>
+          <p>Are you sure you want to approve this request?</p>
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-secondary btn-sm me-2" onClick={() => toast.dismiss()}>
+              Cancel
+            </button>
+            <button
+              className="btn btn-success btn-sm"
+              disabled={loadingApprove}
+              onClick={async () => {
+                try {
+                  setLoadingApprove(true);
+                  await getRequest(`/crypto/${id}/approve`);
+                  toast.success("Approved successfully");
+                  fetchData(page);
+                  toast.dismiss();
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Failed to approve");
+                } finally {
+                  setLoadingApprove(false);
+                }
+              }}
+            >
+              {loadingApprove ? "Approving..." : "Yes, Approve"}
+            </button>
+          </div>
+        </div>,
+        { autoClose: false }
+      );
+  };
+  
+
+  const handleReject = (id) => {
+      toast.info(
+        ({ closeToast }) => (
+          <div>
+            <p>Are you sure you want to reject this?</p>
+            <button
+              className="btn btn-sm btn-danger me-2"
+              onClick={() => {
+                setRejectId(id);
+                setShowRejectModal(true);
+                closeToast();
+              }}
+            >
+              Yes
+            </button>
+            <button className="btn btn-sm btn-secondary" onClick={closeToast}>
+              No
+            </button>
+          </div>
+        ),
+        { autoClose: false }
+      );
+  };
+  
 
   /* ================= CLIENT-SIDE FILTER ================= */
   const filteredData = allData.filter((d) => {
@@ -63,8 +131,7 @@ export default function CryptoHistory() {
                   <select
                     className="form-select"
                     value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                  >
+                    onChange={(e) => setFilterType(e.target.value)}>
                     <option value="">All Types</option>
                     <option value="buy">Buy</option>
                     <option value="sell">Sell</option>
@@ -73,8 +140,7 @@ export default function CryptoHistory() {
                   <select
                     className="form-select"
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
+                    onChange={(e) => setStatusFilter(e.target.value)}>
                     <option value="">All Status</option>
                     <option value="approved">Approved</option>
                     <option value="pending">Pending</option>
@@ -89,8 +155,7 @@ export default function CryptoHistory() {
                       <div
                         className="spinner-border text-primary"
                         role="status"
-                        style={{ width: "3rem", height: "3rem" }}
-                      >
+                        style={{ width: "3rem", height: "3rem" }}>
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     </div>
@@ -109,6 +174,7 @@ export default function CryptoHistory() {
                           <th>Naira</th>
                           <th>Status</th>
                           <th>Date</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -148,8 +214,7 @@ export default function CryptoHistory() {
                                       : data.status === "pending"
                                       ? "bg-label-warning"
                                       : "bg-label-danger"
-                                  }`}
-                                >
+                                  }`}>
                                   {data.status}
                                 </span>
                               </td>
@@ -163,6 +228,53 @@ export default function CryptoHistory() {
                                   }
                                 )}
                               </td>
+                              {/* <td>
+                                <div className="dropdown">
+                                  <button
+                                    type="button"
+                                    className="btn p-0 dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown">
+                                    <i className="bx bx-dots-vertical-rounded"></i>
+                                  </button>
+                                  <div className="dropdown-menu">
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => handleApprove(data.id)}>
+                                      <i className="bx bx-check me-1"></i>{" "}
+                                      Approve
+                                    </button>
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => handleReject(data.id)}>
+                                      <i className="bx bx-x me-1"></i> Reject
+                                    </button>
+                                  </div>
+                                </div>
+                              </td> */}
+
+                              {data.status === "pending" && (
+                                <div className="dropdown">
+                                  <button
+                                    type="button"
+                                    className="btn p-0 dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown">
+                                    <i className="bx bx-dots-vertical-rounded"></i>
+                                  </button>
+                                  <div className="dropdown-menu">
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => handleApprove(data.id)}>
+                                      <i className="bx bx-check me-1"></i>{" "}
+                                      Approve
+                                    </button>
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => handleReject(data.id)}>
+                                      <i className="bx bx-x me-1"></i> Reject
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
                             </tr>
                           ))
                         )}
@@ -178,8 +290,7 @@ export default function CryptoHistory() {
                   <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
                     <button
                       className="page-link"
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    >
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}>
                       Previous
                     </button>
                   </li>
@@ -187,21 +298,24 @@ export default function CryptoHistory() {
                   {Array.from({ length: totalPages }, (_, i) => (
                     <li
                       key={i}
-                      className={`page-item ${page === i + 1 ? "active" : ""}`}
-                    >
-                      <button className="page-link" onClick={() => setPage(i + 1)}>
+                      className={`page-item ${page === i + 1 ? "active" : ""}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => setPage(i + 1)}>
                         {i + 1}
                       </button>
                     </li>
                   ))}
 
                   <li
-                    className={`page-item ${page === totalPages ? "disabled" : ""}`}
-                  >
+                    className={`page-item ${
+                      page === totalPages ? "disabled" : ""
+                    }`}>
                     <button
                       className="page-link"
-                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    >
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }>
                       Next
                     </button>
                   </li>

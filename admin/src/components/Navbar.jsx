@@ -126,8 +126,17 @@ export default class Navbar extends Component {
                                 href="/admin/notifications"
                                 className="menu-link"
                             >
-                                <i className="menu-icon tf-icons bx bx-support"></i>
+                                <i className="menu-icon tf-icons bx bx-speaker"></i>
                                 <div data-i18n="Support">Notifications</div>
+                            </a>
+                        </li>
+                        <li className="menu-item">
+                            <a
+                                href="/admin/termscondition"
+                                className="menu-link"
+                            >
+                                <i className="menu-icon tf-icons bx bx-book"></i>
+                                <div data-i18n="Support">Terms & Conditions</div>
                             </a>
                         </li>
                         <li className="menu-item">

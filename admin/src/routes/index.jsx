@@ -22,6 +22,7 @@ import CablePlan from "../pages/pricing/CablePlan";
 import CryptoPlan from "../pages/pricing/CryptoPlan";
 import GiftcardPlan from "../pages/pricing/GiftcardPlan";
 import DataPlan from "../pages/pricing/DataPlan";
+import TermsCondition from "../pages/TermsCondition";
 
 export default function AppRoutes() {
   return (
@@ -52,6 +53,7 @@ export default function AppRoutes() {
           <Route path="/admin/setting" element={<RequireAuth adminonly={true}><Setting /></RequireAuth>} />
           <Route path="/admin/support" element={<RequireAuth adminonly={true}><Support /></RequireAuth>} />
           <Route path="/admin/notifications" element={<RequireAuth adminonly={true}><Notification /></RequireAuth>} />
+          <Route path="/admin/termscondition" element={<RequireAuth adminonly={true}><TermsCondition /></RequireAuth>} />
           <Route path="/admin/profile" element={<RequireAuth adminonly={true}><Profile /></RequireAuth>} />
         </Routes>
       </AuthProvider>
