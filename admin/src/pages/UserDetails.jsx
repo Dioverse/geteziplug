@@ -88,7 +88,7 @@ export default function UserDetails() {
                         <strong>ID (NIN):</strong>
                       </p>
                       <img
-                        src={documents.idmean}
+                        src={`https://cashpoint.deovaze.com/storage/${documents.idmean}`}
                         alt="NIN Document"
                         width="250"
                         className="img-thumbnail"

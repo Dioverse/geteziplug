@@ -90,6 +90,13 @@ export default class Navbar extends Component {
                             <div data-i18n="Account Settings">Users</div>
                         </a>
                         </li>
+
+                        <li className="menu-item">
+                        <a href="/admin/kycs_list" className="menu-link">
+                            <i className="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">KYC</div>
+                        </a>
+                        </li>
                         <li className="menu-item">
                         <a href="/admin/pricing/airtime" className="menu-link">
                             <i className="menu-icon tf-icons bx bx-lock-open-alt"></i>

@@ -23,6 +23,7 @@ import CryptoPlan from "../pages/pricing/CryptoPlan";
 import GiftcardPlan from "../pages/pricing/GiftcardPlan";
 import DataPlan from "../pages/pricing/DataPlan";
 import TermsCondition from "../pages/TermsCondition";
+import Kycs from "../pages/kycs";
 
 export default function AppRoutes() {
   return (
@@ -33,6 +34,7 @@ export default function AppRoutes() {
           <Route path="/admin/login" element={<LoginPage />} />
           <Route path="/admin/home" element={<RequireAuth adminonly={true}><Dashboard /> </RequireAuth>} />
           <Route path="/admin/users" element={<RequireAuth adminonly={true}><Users /></RequireAuth>} />
+          <Route path="/admin/kycs_list" element={<RequireAuth adminonly={true}><Kycs /></RequireAuth>} />
           <Route path="/admin/users/:id" element={<RequireAuth adminonly={true}><UserDetails /></RequireAuth>} />
 
           <Route path="/admin/pricing/airtime" element={<RequireAuth adminonly={true}><AirtimePricing /></RequireAuth>} />
